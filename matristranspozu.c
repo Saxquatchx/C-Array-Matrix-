@@ -62,40 +62,13 @@ int main() {
         printf("|\n");
     }
 
+
     printf("\n-----------------------------------------------------------------------------\n\n");
-    
-    //Matrisimizi transpoz edecegiz.
-    printf("Matrisin transpoz edilmiş hali: \n\n");   
-
-    //Bunun icin yeni bir matris olusturuyoruz.
-    int yenimatris[nn][n];
-
-    for (i = 0; i < n; i++)
-    { 
-        for (ii = 0; ii < nn; ii++)
-        {
-            yenimatris[ii][i]=matris[i][ii];
-        }
-    }
-
-    //Yeni matrisimizi yazdiriyoruz.
-    for (ii = 0; ii < nn; ii++)
-    {
-        printf("|");
-        for (i = 0; i < n; i++)
-        {
-            printf(" %d ", yenimatris[ii][i]);
-        }
-        printf("|\n");
-    }
-    printf("\n\n");
-
-    printf("-----------------------------------------------------------------------------\n\n");
 
     //Bir de matrisimizi sortlayalim (siralayalim).  
     printf("Matrisin sortlanmis hali: \n\n");
     
-    int j, jj, jjj, temp[n*nn], sayac = 0, tempiki;
+    int j, jj, jjj, temp[n*nn], sayac = 0, tempiki, sortlanmismatris[n][nn];
     
     //Matrisi duz bir array'a (tek boyutlu bir diziye) atiyoruz.
     for(j = 0; j < n; j++){
@@ -122,7 +95,7 @@ int main() {
     for (j = 0; j < n; j++)
     {
         for (jj = 0; jj < nn; jj++) {
-            matris[j][jj] = temp[sayac];
+            sortlanmismatris[j][jj] = temp[sayac];
             sayac++;
         }
     }
@@ -133,7 +106,81 @@ int main() {
         printf("|");
         for (ii = 0; ii < nn; ii++)
         {
-            printf(" %d ", matris[i][ii]);
+            printf(" %d ", sortlanmismatris[i][ii]);
+        }
+        printf("|\n");
+    }
+
+    printf("\n-----------------------------------------------------------------------------\n\n");
+    
+    //Matrisimizi transpoz edecegiz.
+    printf("Matrisin transpoz edilmiş hali: \n\n");   
+
+    //Bunun icin yeni bir matris olusturuyoruz.
+    int yenimatris[nn][n];
+
+    for (i = 0; i < n; i++)
+    { 
+        for (ii = 0; ii < nn; ii++)
+        {
+            yenimatris[ii][i]=matris[i][ii];
+        }
+    }
+
+    //Yeni matrisimizi yazdiriyoruz.
+    for (ii = 0; ii < nn; ii++)
+    {
+        printf("|");
+        for (i = 0; i < n; i++)
+        {
+            printf(" %d ", yenimatris[ii][i]);
+        }
+        printf("|\n");
+    }
+
+    printf("\n-----------------------------------------------------------------------------\n\n");
+
+    //Transpozumuzu Sortluyoruz.
+    printf("Transpozun Sortlanmis hali:\n\n");
+    //Öncelikle transpozu düz (Tek boyutlu) bir arraya alalım.
+    sayac = 0;
+    for (j = 0; j < nn; j++)
+    {
+        for (jj = 0; jj < n; jj++)
+        {
+            temp[sayac] = yenimatris[j][jj];
+            sayac++;
+        }
+    }
+
+    //Ardından arrayi sortlayalım. 
+    for (jjj = 0; jjj < n*nn-1; jjj++) // Burada sonuncu sayiyi karsilastiramayacagi icin en sondan bir oncekine kadar gidiyoruz.
+    {
+        if (temp[jjj] > temp[jjj+1]) { // Eger soldaki sayi sagdakinden buyukse
+            tempiki = temp[jjj]; // Soldaki sayiyi temp degerine atiyoruz
+            temp[jjj] = temp[jjj+1]; // Sonra soldaki sayiyi sagdaki sayiya esitliyoruz
+            temp[jjj+1] = tempiki; // Ardindan sagdaki sayiyi da soldaki sayiya yani yukarida atadigimiz temp degerine esitliyoruz
+            jjj = -1; // Ve sayac degerimizi -1'e esitliyoruz ki dongu en basa sardigindan bir artip 0. indexten tekrar siralamaya baksin
+        } 
+    }   
+
+    //Şimdi tek boyutlu arrayimizi matrise atayalım.
+    sayac = 0;
+    for (j = 0; j < nn; j++)
+    {
+        for (jj = 0; jj < n; jj++) {
+            yenimatris[j][jj] = temp[sayac];
+            sayac++;
+        }
+    }
+
+    //Terkrardan matrisimizi yazdiralim.
+    for (i = 0; i < nn; i++)
+    {
+        printf("|");
+        for (ii = 0; ii < n; ii++)
+        {
+            printf(" %d ", yenimatris[i][ii]);
         }
         printf("|\n");
     }
